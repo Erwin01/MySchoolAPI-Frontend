@@ -1,0 +1,135 @@
+ 
+<p-toast></p-toast>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">MY SCHOOL</a>
+    </div>
+  </nav>
+  <br>
+<div class="container mt-4">
+    <h1 style="text-align: center;">STUDENTS LIST</h1>
+    <br>
+    <button type="button" class="btn btn-primary" (click)="cleanUp()" 
+    data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <span></span> <i class="fa-solid fa-circle-plus"></i>
+        New
+    </button>
+    <!-- <div class="row" style="justify-content: flex-end;">
+      <div class="col-lg-6">
+        <div class="form-group pull-left">
+          <label>Search  </label>
+          <label>
+            <input type="text" class="form-control" />
+          </label>
+        </div>  
+      </div>
+    </div> -->
+<table class="table mt-2">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Code</th>
+        <th scope="col">Name</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">User Phone</th>
+        <th scope="col">Address</th>
+        <th scope="col">Career</th>
+        <th scope="col" style="text-align: center;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of listStudent; let i = index">
+        <th scope="row"> {{i+1}} </th>
+        <td> {{student.name}} </td>
+        <td> {{student.firstName}} </td>
+        <td> {{student.lastName}} </td>
+        <td> {{student.phoneNumber}} </td>
+        <td> {{student.address}} </td>
+        <td> {{student.career}} </td>
+        <td style="text-align: center;">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+            (click)="viewEdit(student.id,student.name,student.firstName,student.lastName,student.phoneNumber,student.address,student.career)">
+                <i class="fa-solid fa-pen-to-square"></i>
+                Edit
+            </button> |
+            <button type="button" class="btn btn-danger" (click)="confirmDelete(student.id,student.name,student.firstName,student.lastName,student.phoneNumber,student.address,student.career)">
+                <i class="fa-solid fa-trash"></i>
+                Delete
+            </button>
+        </td>
+      </tr>
+      <tr *ngIf="!listStudent || listStudent.length === 0">
+        <td colspan="4" style="text-align: center center; color: maroon;">
+          <bold>No student data to display</bold>
+        </td>
+      </tr> 
+    </tbody>
+  </table>
+  <!-- <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+  </nav> -->
+</div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> STUDENT FORM</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="studentForm">
+                <div class="mb-3">
+                  <input type="text" class="form-control" placeholder="Name" formControlName="name">
+                </div>
+
+                <div class="mb-3">
+                  <input type="text" class="form-control" placeholder="First name" formControlName="firstName">
+                </div>
+                
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Last name" formControlName="lastName">
+                  </div>
+
+                  <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Phone number" formControlName="phoneNumber">
+                  </div>
+
+                  <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Address" formControlName="address">
+                  </div>
+
+                  <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Career" formControlName="career">
+                  </div>
+              </form>
+              <!-- {{ studentForm.value | json }} -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            <i class="fa-solid fa-ban"></i>
+            Cancel
+          </button>
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" [disabled]="studentForm.invalid" (click)="saveChanges()" *ngIf="btnSave">
+            <i class="fa-solid fa-floppy-disk"></i>
+            Save changes
+          </button>
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="edit()" *ngIf="btnEdit">
+            <i class="fa-solid fa-floppy-disk"></i>
+            Edit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Modal End-->
